@@ -97,6 +97,18 @@ impl Request {
         }
     }
 
+    pub(crate) fn into_hyper_request(self) -> hyper::Request<hyper::Body> {
+        let mut req = hyper::Request::builder()
+            .method(self.method)
+            .uri(self.uri)
+            .version(self.version)
+            .body(self.body.0)
+            .unwrap();
+        *req.headers_mut() = self.headers;
+        *req.extensions_mut() = self.extensions;
+        req
+    }
+
     /// Creates a request builder.
     pub fn builder() -> RequestBuilder {
         RequestBuilder {

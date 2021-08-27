@@ -5,4 +5,4 @@ mod files;
 mod tower_compat;
 
 pub use files::Files;
-pub use tower_compat::{TowerCompat, TowerCompatExt};
+// pub use tower_compat::TowerCompat;

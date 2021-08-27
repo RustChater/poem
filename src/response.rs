@@ -1,10 +1,14 @@
 use std::{
     any::Any,
     convert::TryInto,
-    fmt::{self, Debug, Formatter},
+    fmt::{self, Debug, Display, Formatter},
 };
 
+use bytes::Bytes;
+use hyper::body::HttpBody;
+
 use crate::{
+    body::BodyStream,
     http::{
         header::{self, HeaderMap, HeaderName, HeaderValue},
         Extensions, StatusCode, Version,
@@ -64,6 +68,22 @@ impl Response {
         *resp.headers_mut() = self.headers;
         *resp.extensions_mut() = self.extensions;
         resp
+    }
+
+    pub(crate) fn from_http_response<T>(req: hyper::Response<T>) -> Self
+    where
+        T: HttpBody + Send + 'static,
+        T::Data: Into<Bytes>,
+        T::Error: Display,
+    {
+        let (parts, body) = req.into_parts();
+        Self {
+            status: parts.status,
+            version: parts.version,
+            headers: parts.headers,
+            extensions: parts.extensions,
+            body: Body(hyper::Body::wrap_stream(BodyStream::new(body))),
+        }
     }
 
     /// Creates a response builder.

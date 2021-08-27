@@ -22,7 +22,7 @@ members = [
 ]
 
 [features]
-default = []
+default = ["tower-compat"]
 websocket = ["tokio-tungstenite"]
 multipart = ["multer"]
 tls = ["tokio-rustls"]
@@ -51,15 +51,15 @@ cookie = { version = "0.15.1", features = ["percent-encode"] }
 parking_lot = "0.11.1"
 askama = "0.10.5"
 thiserror = "1.0.26"
-anyhow = "1.0.43"
 pin-project-lite = "0.2.7"
+anyhow = "1.0.43"
 
 # Non-feature optional dependencies
 multer = { version = "2.0.1", features = ["tokio"], optional = true }
 tokio-tungstenite = { version = "0.15.0", optional = true }
 tokio-rustls = { version = "0.22.0", optional = true }
 async-compression = { version = "0.3.8", optional = true, features = ["tokio", "gzip", "brotli", "deflate"] }
-tower = { version = "0.4.8", optional = true, features = ["util"] }
+tower = { version = "0.4.8", optional = true, features = ["util", "make", "buffer"] }
 
 # Feature optional dependencies
 typed-headers = { version = "0.2.0", optional = true }
