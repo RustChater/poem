@@ -1,8 +1,7 @@
 use std::marker::PhantomData;
 
 use hyper::body::HttpBody;
-use tower_service::Service;
-use tower_util::ServiceExt;
+use tower::{Service, ServiceExt};
 
 use crate::{http, Endpoint, Request, Response};
 
@@ -28,6 +27,7 @@ where
     type Output = Response;
 
     async fn call(&self, req: Request) -> Self::Output {
+        // self.inner.ready().await;
         // let r = self.inner.ready_and().await;
         todo!()
     }
